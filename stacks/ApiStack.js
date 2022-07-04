@@ -1,4 +1,4 @@
-import { Api, use } from "@serverless-stack/ resources";
+import { Api, use } from "@serverless-stack/resources";
 import { StorageStack } from "./StorageStack";
 
 export function ApiStack({ stack, app }) {
