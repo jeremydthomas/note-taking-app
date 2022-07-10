@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
-import "./App.css";
 import Routes from "./Routes";
 import Nav from "react-bootstrap/Nav";
 import { LinkContainer } from "react-router-bootstrap";
 import { AppContext } from "./lib/contextLib";
 import { Auth, nav } from "aws-amplify";
-import {useNavigate} from "react-router-dom";
-import {onError} from "./lib/errorLib";
+import { useNavigate } from "react-router-dom";
+import { onError } from "./lib/errorLib";
+import "./App.css";
 
 function App() {
 	const nav = useNavigate();
@@ -24,7 +24,8 @@ function App() {
 			userHasAuthenticated(true);
 		} catch (e) {
 			if (e !== "No current user") {
-onError(e)			}
+				onError(e);
+			}
 		}
 
 		setIsAuthenticating(false);
@@ -57,6 +58,9 @@ onError(e)			}
 									</LinkContainer>
 									<LinkContainer to="/login">
 										<Nav.Link>Login</Nav.Link>
+									</LinkContainer>
+									<LinkContainer to="/notes/new">
+										<Nav.Link>New Note</Nav.Link>
 									</LinkContainer>
 								</>
 							)}

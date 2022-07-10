@@ -43,7 +43,9 @@ export default function Signup() {
 			setIsLoading(false);
 			setNewUser(newUser);
 		} catch (e) {
-			if (e === "UsernameExistsException") {
+   // TODO need to figure something different here, automatically send confirmation code to email, I did it incase they accidentally clicked out of the page without entering the code
+			if (e.name === "UsernameExistsException") {
+    onError("The username is already registered. Please choose a different username, or enter the confirmation code that got sent to your email if you weren't able to before.");
 				Auth.resendSignUp(fields.email);
 				setIsLoading(false);
 				setNewUser(false);
