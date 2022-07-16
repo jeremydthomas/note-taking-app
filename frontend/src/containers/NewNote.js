@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
+import { API } from "aws-amplify";
 import LoaderButton from "../components/LoaderButton";
 import { onError } from "../lib/errorLib";
+import { s3Upload } from "../lib/awsLib";
 import config from "../config";
 import "./NewNote.css";
 
@@ -31,8 +33,26 @@ export default function NewNote() {
 			);
 			return;
 		}
+
 		setIsLoading(true);
+
+		try {
+			const attachment = file.current ? await s3Upload(file.current) : null;
+
+			await createNote({ content, attachment });
+			nav("/");
+		} catch (e) {
+			onError(e);
+			setIsLoading(false);
+		}
 	}
+
+	function createNote(note) {
+		return API.post("notes", "/notes", {
+			body: note,
+		});
+	}
+
 	return (
 		<div className="NewNote">
 			<Form onSubmit={handleSubmit}>
