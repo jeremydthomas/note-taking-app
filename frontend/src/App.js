@@ -42,7 +42,7 @@ function App() {
 			<div className="App container py-3">
 				<Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
 					<LinkContainer to="/">
-						<Navbar.Brand className="font-weight-bold text-muted">
+						<Navbar.Brand className="ps-2 font-weight-bold text-muted">
 							Jot
 						</Navbar.Brand>
 					</LinkContainer>
@@ -50,7 +50,14 @@ function App() {
 					<Navbar.Collapse className="justify-content-end">
 						<Nav activeKey={window.location.pathname}>
 							{isAuthenticated ? (
-								<Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+								<>
+									<LinkContainer to="/notes/new">
+										<Nav.Link>New Note</Nav.Link>
+									</LinkContainer>
+									<Nav.Link className="pe-3" onClick={handleLogout}>
+										Logout
+									</Nav.Link>
+								</>
 							) : (
 								<>
 									<LinkContainer to="/signup">
@@ -58,9 +65,6 @@ function App() {
 									</LinkContainer>
 									<LinkContainer to="/login">
 										<Nav.Link>Login</Nav.Link>
-									</LinkContainer>
-									<LinkContainer to="/notes/new">
-										<Nav.Link>New Note</Nav.Link>
 									</LinkContainer>
 								</>
 							)}
