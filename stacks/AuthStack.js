@@ -1,5 +1,5 @@
 import * as iam from "aws-cdk-lib/aws-iam";
-import { Auth, use } from "@serverless-stack/resources";
+import { Cognito, use } from "@serverless-stack/resources";
 import { StorageStack } from "./StorageStack";
 import { ApiStack } from "./ApiStack";
 
@@ -8,11 +8,11 @@ export function AuthStack({ stack, app }) {
 	const { api } = use(ApiStack);
 
 	// crete a cognito user pool and identity pool
-	const auth = new Auth(stack, "Auth", {
+	const auth = new Cognito(stack, "Auth", {
 		login: ["email"],
 	});
 
-	auth.attachPermissionsForAuthUsers([
+	auth.attachPermissionsForAuthUsers(stack,[
 		// allow access to the api
 		api,
 		// policy granting access to a specific folder in the bucket

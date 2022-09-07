@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Auth } from "aws-amplify";
+import { Cognito } from "aws-amplify";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
@@ -27,7 +27,7 @@ export default function Login() {
 		setIsLoading(true);
 
 		try {
-			await Auth.signIn(fields.email, fields.password);
+			await Cognito.signIn(fields.email, fields.password);
 			userHasAuthenticated(true);
 			nav("/");
 		} catch (e) {

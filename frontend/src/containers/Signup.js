@@ -5,7 +5,7 @@ import LoaderButton from "../components/LoaderButton";
 import { useAppContext } from "../lib/contextLib";
 import { useFormFields } from "../lib/hooksLib";
 import { onError } from "../lib/errorLib";
-import { Auth } from "aws-amplify";
+import { Cognito } from "aws-amplify";
 import "./Signup.css";
 
 export default function Signup() {
@@ -36,7 +36,7 @@ export default function Signup() {
 		event.preventDefault();
 		setIsLoading(true);
 		try {
-			const newUser = await Auth.signUp({
+			const newUser = await Cognito.signUp({
 				username: fields.email,
 				password: fields.password,
 			});
@@ -46,7 +46,7 @@ export default function Signup() {
    // TODO need to figure something different here, automatically send confirmation code to email, I did it incase they accidentally clicked out of the page without entering the code
 			if (e.name === "UsernameExistsException") {
     onError("The username is already registered. Please choose a different username, or enter the confirmation code that got sent to your email if you weren't able to before.");
-				Auth.resendSignUp(fields.email);
+				Cognito.resendSignUp(fields.email);
 				setIsLoading(false);
 				setNewUser(false);
 			} else {
@@ -60,8 +60,8 @@ export default function Signup() {
 		event.preventDefault();
 		setIsLoading(true);
 		try {
-			await Auth.confirmSignUp(fields.email, fields.confirmationCode);
-			await Auth.signIn(fields.email, fields.password);
+			await Cognito.confirmSignUp(fields.email, fields.confirmationCode);
+			await Cognito.signIn(fields.email, fields.password);
 			userHasAuthenticated(true);
 			nav("/");
 		} catch (e) {

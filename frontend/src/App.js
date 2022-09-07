@@ -4,7 +4,7 @@ import Routes from "./Routes";
 import Nav from "react-bootstrap/Nav";
 import { LinkContainer } from "react-router-bootstrap";
 import { AppContext } from "./lib/contextLib";
-import { Auth, nav } from "aws-amplify";
+import { Cognito, nav } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
 import { onError } from "./lib/errorLib";
 import "./App.css";
@@ -20,7 +20,7 @@ function App() {
 
 	async function onLoad() {
 		try {
-			await Auth.currentSession();
+			await Cognito.currentSession();
 			userHasAuthenticated(true);
 		} catch (e) {
 			if (e !== "No current user") {
@@ -32,7 +32,7 @@ function App() {
 	}
 
 	async function handleLogout() {
-		await Auth.signOut();
+		await Cognito.signOut();
 		userHasAuthenticated(false);
 		nav("/login");
 	}
