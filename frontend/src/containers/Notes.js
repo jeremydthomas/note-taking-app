@@ -100,7 +100,8 @@ export default function Notes() {
     return API.del("notes", `/notes/${id}`);
   }
 
-  async function handleDelete(event) {
+	async function handleDelete(event) {
+			let	attachment;
     event.preventDefault();
 
     const confirmed = window.confirm(
@@ -109,11 +110,15 @@ export default function Notes() {
 
     if (!confirmed) {
       return;
-    }
-
+				}
+			
+				
     setIsDeleting(true);
-
+				
     try {
+					if	(note.attachment) {
+						attachment = await s3Delete(note.attachment);
+					}
       await deleteNote();
       nav("/");
     } catch (e) {
