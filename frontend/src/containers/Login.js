@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Cognito } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
@@ -27,7 +27,7 @@ export default function Login() {
 		setIsLoading(true);
 
 		try {
-			await Cognito.signIn(fields.email, fields.password);
+			await Auth.signIn(fields.email, fields.password);
 			userHasAuthenticated(true);
 			nav("/");
 		} catch (e) {
@@ -46,6 +46,7 @@ export default function Login() {
 						type="email"
 						value={fields.email}
 						onChange={handleFieldChange}
+						autoComplete="current-email"
 					/>
 				</Form.Group>
 				<Form.Group size="lg" controlId="password">
@@ -54,6 +55,7 @@ export default function Login() {
 						type="password"
 						value={fields.password}
 						onChange={handleFieldChange}
+						autoComplete="current-password"
 					/>
 				</Form.Group>
 				<LoaderButton
